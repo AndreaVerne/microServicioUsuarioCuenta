@@ -59,14 +59,14 @@ public class CuentaController {
 	public Cuenta crearCuenta(@RequestBody Cuenta cuenta) {
 		return cuentaRepository.save(cuenta);
 	}
-	@PutMapping("/agregarUsuario/{id_usuario")
-	public Cuenta agregarUsuario(@PathVariable long id_usuario ,  @RequestBody Cuenta cuenta) {
+	//@PutMapping("/agregarUsuario/{id_usuario")
+	//public Cuenta agregarUsuario(@PathVariable long id_usuario ,  @RequestBody Cuenta cuenta) {
 
-			if(UsuarioController.xRolAdmin(id_usuario)) {
+		//	if(UsuarioController.xRolAdmin(id_usuario)) {
 				
-			}
+		//	}
 	
-	}
+	//}
 
 	@DeleteMapping("/{id}")
 	public void deshabilitarCuenta(@PathVariable long id) {

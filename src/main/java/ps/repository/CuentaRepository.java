@@ -13,5 +13,8 @@ import ps.model.Cuenta;
 public interface CuentaRepository extends JpaRepository<Cuenta, Long> {
 
 
+	  @Query("SELECT u.rol FROM Usuario u WHERE  id_usuario = :id_usuario")
+		public char xRol(long id_usuario);
+	  
   
 }
