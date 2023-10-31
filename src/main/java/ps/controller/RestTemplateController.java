@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ps.model.Jugador;
+import ps.model.Cuenta;
+import ps.model.Usuario;
 import ps.service.ApiService;
 
 @RestController
@@ -26,9 +27,15 @@ public class RestTemplateController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Jugador> post(@RequestBody Jugador jugador) {
-		return this.api_service.post(jugador);
+	public ResponseEntity<Usuario> post(@RequestBody Usuario usuario) {
+		return this.api_service.post(usuario);
+	
 	}
+	@PostMapping
+	public ResponseEntity<Cuenta> post(@RequestBody Cuenta cuenta) {
+			return this.api_service.post(cuenta);
+		}
+	
 
 	@DeleteMapping("/{id}")
 	public void delete(@PathVariable Long id) {
