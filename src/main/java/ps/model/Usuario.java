@@ -1,5 +1,7 @@
 package ps.model;
 
+import java.util.ArrayList;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,6 +27,8 @@ public class Usuario {
 	 
 	 private char rol;
 	 
+	 private ArrayList<Cuenta>cuentas;
+	 
 	// Constructor vacío
 	public Usuario() {
 	}
@@ -39,8 +43,15 @@ public class Usuario {
 		this.contraseña = contraseña;
 		this.celular = celular;
 		this.id_cuenta = id_cuenta;
+		this.cuentas= new ArrayList<>();
+	}
+	public ArrayList<Cuenta> getUsuarios(){
+		
+		return cuentas;
+		
 	}
 
+	
 
 	public long getId_usuario() {
 		return id_usuario;

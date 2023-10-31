@@ -36,7 +36,7 @@ public class Cuenta {
 		this.saldo = saldo;
 		this.habilitada = habilitada;
 		this.motivo = motivo;
-		this.usuarios= new ArrayList();
+		this.usuarios= new ArrayList<>();
 	}
 	
 	public ArrayList<Usuario> getUsuarios(){

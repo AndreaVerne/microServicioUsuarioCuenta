@@ -14,6 +14,8 @@ import ps.model.Usuario;
 import ps.repository.CuentaRepository;
 import ps.repository.UsuarioRepository;
 import ps.controller.UsuarioController;
+import ps.service.CuentaService;
+import ps.service.UsuarioService;
 
 @RestController
 @RequestMapping("/cuentas")
@@ -23,6 +25,12 @@ public class CuentaController {
 	@Autowired
 	private CuentaRepository cuentaRepository;
 
+	  @Autowired
+	  private CuentaService cuentaService;
+	 
+	  @Autowired
+	  private UsuarioService usuarioService;
+	  
 	@Value("${variable_env}")
 	private String variable_env;
 
@@ -59,21 +67,16 @@ public class CuentaController {
 	public Cuenta crearCuenta(@RequestBody Cuenta cuenta) {
 		return cuentaRepository.save(cuenta);
 	}
-	//@PutMapping("/agregarUsuario/{id_usuario")
-	//public Cuenta agregarUsuario(@PathVariable long id_usuario ,  @RequestBody Cuenta cuenta) {
 
-		//	if(UsuarioController.xRolAdmin(id_usuario)) {
-				
-		//	}
-	
-	//}
+    @PostMapping("/crearCuenta")
+    public Cuenta crearCuenta(@RequestParam Long id, @RequestBody Cuenta cuenta) {
+        return cuentaService.crearCuenta(id, cuenta);
+    }
 
-	@DeleteMapping("/{id}")
-	public void deshabilitarCuenta(@PathVariable long id) {
-		cuentaRepository.deleteById(id);
-	}
-	
-	
+    @PutMapping("/agregarUsuario/{id}")
+    public Cuenta agregarUsuario(@PathVariable Long id, @RequestParam Long idUsuarioSolicitante, @RequestParam Long idUsuarioAgregado) {
+        return cuentaService.agregarUsuario(id, idUsuarioSolicitante, idUsuarioAgregado);
+    }
 
 	// Actualizar un Cuenta existente por ID
 	@PutMapping("/{id}")
@@ -81,6 +84,12 @@ public class CuentaController {
 		cuentaActualizado.setId(id);
 		return cuentaRepository.save(cuentaActualizado);
 	}
+	
+    // Endpoint para deshabilitar una cuenta por su ID
+    @PutMapping("/deshabilitar/{id}")
+    public void deshabilitarCuenta(@PathVariable Long id) {
+        usuarioService.deshabilitarCuenta(id);
+    }
 
 	// Eliminar un Cuenta por ID
 	@DeleteMapping("/{id}")

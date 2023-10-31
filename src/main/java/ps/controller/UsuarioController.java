@@ -9,13 +9,16 @@ import org.springframework.web.bind.annotation.*;
 import dto.requets.ErrorResponse;
 
 import dto.response.UsuarioResponse;
-
+import ps.model.Cuenta;
 import ps.model.Usuario;
 import ps.repository.UsuarioRepository;
+import ps.service.UsuarioService;
 
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
+	@Autowired
+	private UsuarioService usuarioService;
 	
 	@Autowired
 	private UsuarioRepository usuarioRepository;
@@ -50,6 +53,19 @@ public class UsuarioController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(er);
 		}
 	}
+	
+
+    // Endpoint para obtener la cuenta de un usuario por su ID
+    @GetMapping("/cuenta")
+    public Cuenta obtenerCuentaPorUsuario(@PathVariable Long id_usuario) {
+        return usuarioService.obtenerCuentaPorUsuario(id_usuario);
+    }
+
+    // Endpoint para restar un monto a la cuenta por su ID
+    @PutMapping("/{idCuenta}/{monto}")
+    public Cuenta restarMontoACuenta(@PathVariable Long id, @PathVariable double saldo) {
+        return usuarioService.restarMontoACuenta(id, saldo);
+    }
 
 	// Crear un nuevo usuario
 	@PostMapping
@@ -64,6 +80,23 @@ public class UsuarioController {
         }
        return false ;
    } 
+  
+
+   @GetMapping("/rolDueño/{id_usuario}")
+    public boolean xRolDueño(@PathVariable long id){
+        if(usuarioRepository.xRol(id) == 'd'){
+           return true;
+        }
+       return false ;
+   } 
+   @GetMapping("/rolUsuario/{id_usuario}")
+   public boolean xRolUsuario(@PathVariable long id){
+       if(usuarioRepository.xRol(id) == 'u'){
+          return true;
+       }
+      return false ;
+  } 
+
 	
 	// Actualizar un Usuario existente por ID
 	@PutMapping("/{id_usuario}")
