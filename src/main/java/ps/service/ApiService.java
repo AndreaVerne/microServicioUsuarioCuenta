@@ -6,7 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import ps.model.Jugador;
+import ps.model.Cuenta;
+import ps.model.Usuario;
 
 @Service
 public class ApiService {
@@ -22,10 +23,13 @@ public class ApiService {
 		return this.rest_template.getForEntity(this.base_url, String.class);
 	}
 
-	public ResponseEntity<Jugador> post(Jugador jugador) {
-		return this.rest_template.postForEntity(this.base_url, jugador, Jugador.class);
+	public ResponseEntity<Cuenta> post(Cuenta cuenta) {
+		return this.rest_template.postForEntity(this.base_url, cuenta, Cuenta.class);
 	}
 
+	public ResponseEntity<Usuario> post(Usuario usuario) {
+		return this.rest_template.postForEntity(this.base_url, usuario, Usuario.class);
+	}
 	public void delete(Long id) {
 		this.rest_template.delete(this.base_url + "/" + id);
 	}

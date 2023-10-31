@@ -1,11 +1,14 @@
 package ps.model;
 
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
-@Document(value = "Usuario")
+@Entity
 public class Usuario {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id_usuario;
 	 
 	 private String nombre;
@@ -26,7 +29,7 @@ public class Usuario {
 
 	public Usuario(long id_usuario, String nombre, String apellido, String correo, String contraseña, int celular,
 			Cuenta id_cuenta) {
-		super();
+
 		this.id_usuario = id_usuario;
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -84,12 +87,14 @@ public class Usuario {
 	public void setCelular(int celular) {
 		this.celular = celular;
 	}
+	
 
-	public long getId_cuenta() {
+
+	public Cuenta getId_cuenta() {
 		return id_cuenta;
 	}
 
-	public void setId_cuenta(long id_cuenta) {
+	public void setId_cuenta(Cuenta id_cuenta) {
 		this.id_cuenta = id_cuenta;
 	}
 

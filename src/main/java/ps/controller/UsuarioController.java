@@ -1,6 +1,5 @@
 package ps.controller;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -8,16 +7,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import dto.requets.ErrorResponse;
-import dto.response.JugadorResponse;
-import ps.model.Jugador;
-import ps.repository.JugadorRepository;
+
+import dto.response.UsuarioResponse;
+
+import ps.model.Usuario;
+import ps.repository.UsuarioRepository;
 
 @RestController
-@RequestMapping("/jugadores")
-public class JugadorController {
+@RequestMapping("/usuarios")
+public class UsuarioController {
 	
 	@Autowired
-	private JugadorRepository jugadorRepository;
+	private UsuarioRepository usuarioRepository;
 
 	@Value("${variable_env}")
 	private String variable_env;
@@ -32,12 +33,12 @@ public class JugadorController {
 		return "Un mensaje de texto.";
 	}
 
-	// Obtener todos los jugadores
+	// Obtener todos los usuario
 	@GetMapping
-	public ResponseEntity<Object> obtenerTodosLosJugadores() {
+	public ResponseEntity<Object> obtenerTodosLosUsuarios() {
 		try {
 			// TODO: Pasar al service.
-			JugadorResponse jr = new JugadorResponse(jugadorRepository.findAll());
+			UsuarioResponse jr = new UsuarioResponse(usuarioRepository.findAll());
 			// Algun llamado al service.
 			//throw new Exception("Este es un mensaje opcional");
 			return ResponseEntity.ok(jr);
@@ -50,23 +51,23 @@ public class JugadorController {
 		}
 	}
 
-	// Crear un nuevo jugador
+	// Crear un nuevo usuario
 	@PostMapping
-	public Jugador crearJugador(@RequestBody Jugador jugador) {
-		return jugadorRepository.save(jugador);
+	public Usuario crearUsuario(@RequestBody Usuario usuario) {
+		return usuarioRepository.save(usuario);
 	}
 
-	// Actualizar un jugador existente por ID
-	@PutMapping("/{id}")
-	public Jugador actualizarJugador(@PathVariable ObjectId id, @RequestBody Jugador jugadorActualizado) {
-		jugadorActualizado.setId(id);
-		return jugadorRepository.save(jugadorActualizado);
+	// Actualizar un Usuario existente por ID
+	@PutMapping("/{id_usuario}")
+	public Usuario actualizarUsuario(@PathVariable long id_usuario, @RequestBody Usuario usuarioActualizado) {
+		usuarioActualizado.setId_usuario(id_usuario);
+		return usuarioRepository.save(usuarioActualizado);
 	}
 
-	// Eliminar un jugador por ID
-	@DeleteMapping("/{id}")
-	public void eliminarJugador(@PathVariable ObjectId id) {
-		jugadorRepository.deleteById(id);
+	// Eliminar un Usuario por ID
+	@DeleteMapping("/{id_usuario}")
+	public void eliminarUsuario(@PathVariable long id_usuario) {
+		usuarioRepository.deleteById(id_usuario);
 	}
 
 	
