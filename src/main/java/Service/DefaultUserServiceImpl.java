@@ -42,11 +42,11 @@ public class DefaultUserServiceImpl implements DefaultUserService {
 	@Override
 	public Usuario save(UsuarioDto usuario_dto) {
 		String role = "ROLE_USER";
-		if (usuario_dto.getRole().equals("ADMIN"))
+		if (usuario_dto.getRol().equals('ADMIN'))
 			role = "ROLE_ADMIN";
 
 		Usuario usuario = new Usuario();
-		usuario.setEmail(usuario_dto.getEmail());
+		usuario.setCorreo(usuario_dto.getCorreo());
 		usuario.setContraseña(passwordEncoder.encode(usuario_dto.getContraseña()));
 		usuario.setRol(role);
 

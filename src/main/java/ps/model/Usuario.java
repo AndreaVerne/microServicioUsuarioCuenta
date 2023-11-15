@@ -25,7 +25,7 @@ public class Usuario {
 	 
 	 private Cuenta id_cuenta;
 	 
-	 private char rol;
+	 private String rol;
 	 
 	 private ArrayList<Cuenta>cuentas;
 	 
@@ -33,7 +33,7 @@ public class Usuario {
 	public Usuario() {
 	}
 
-	public Usuario(long id_usuario, char rol, String nombre, String apellido, String correo, String contraseña, int celular,
+	public Usuario(long id_usuario, String rol, String nombre, String apellido, String correo, String contraseña, int celular,
 			Cuenta id_cuenta) {
 		this.rol=rol;
 		this.id_usuario = id_usuario;
@@ -113,11 +113,11 @@ public class Usuario {
 	
 	
 
-	public char getRol() {
+	public String getRol() {
 		return rol;
 	}
 
-	public void setRol(char rol) {
+	public void setRol(String rol) {
 		this.rol = rol;
 	}
 

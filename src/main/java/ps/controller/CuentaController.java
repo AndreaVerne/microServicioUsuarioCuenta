@@ -10,10 +10,8 @@ import dto.requets.ErrorResponse;
 import dto.response.CuentaResponse;
 
 import ps.model.Cuenta;
-import ps.model.Usuario;
 import ps.repository.CuentaRepository;
-import ps.repository.UsuarioRepository;
-import ps.controller.UsuarioController;
+
 import ps.service.CuentaService;
 import ps.service.UsuarioService;
 
