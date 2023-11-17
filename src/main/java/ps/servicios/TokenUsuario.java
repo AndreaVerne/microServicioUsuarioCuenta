@@ -1,4 +1,4 @@
-package ps.service;
+package ps.servicios;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

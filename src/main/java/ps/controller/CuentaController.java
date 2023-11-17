@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.*;
 
 import dto.requets.ErrorResponse;
 import dto.response.CuentaResponse;
-
+import io.swagger.v3.oas.annotations.Operation;
 import ps.model.Cuenta;
 import ps.repository.CuentaRepository;
 
-import ps.service.CuentaService;
-import ps.service.UsuarioService;
+import ps.servicios.CuentaService;
+import ps.servicios.UsuarioService;
 
 @RestController
 @RequestMapping("/cuentas")
@@ -84,9 +84,16 @@ public class CuentaController {
 	}
 	
     // Endpoint para deshabilitar una cuenta por su ID
-    @PutMapping("/deshabilitar/{id}")
-    public void deshabilitarCuenta(@PathVariable Long id) {
-        usuarioService.deshabilitarCuenta(id);
+    @PutMapping("/anularCuenta/{id}")
+    @Operation(summary = "Deshabilitar cuenta", description = "Busca cuenta por id y la deshabilita (solo admins)")
+    public String anularCuenta(@PathVariable Long id) {
+        Cuenta cuenta = cuentaRepository.findById(id).orElse(null);
+        if (cuenta!=null) {
+            cuenta.setHabilitada(false);
+            cuentaRepository.save(cuenta);
+            return "Cuenta deshabilitada con exito";
+        }
+        return "No se encontro una cuenta con ese id";
     }
 
 	// Eliminar un Cuenta por ID

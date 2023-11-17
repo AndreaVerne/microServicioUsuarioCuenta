@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ps.model.Cuenta;
 import ps.model.Usuario;
-import ps.service.ApiService;
+import ps.servicios.ApiService;
 
 @RestController
 @RequestMapping("/rest_template")

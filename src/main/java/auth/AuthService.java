@@ -1,9 +1,8 @@
 package auth;
 
-import com.example.demo.Usuario.jwt.JWTService;
-import com.example.demo.Usuario.model.Usuario;
+import ps.model.Usuario;
 import ps.repository.UsuarioRepository;
-import com.example.demo.Usuario.servicios.UsuarioServicio;
+import ps.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,14 +11,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import JWT.JWTService;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
+	
 
-    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder ;
 
     @Autowired
-    private UsuarioServicio userService;
+    private UsuarioService userService;
 
     @Autowired
     private JWTService jwtService;
@@ -34,7 +36,7 @@ public class AuthService {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getUsername(), request.getPassword()));
-        UserDetails user = userRepository.findByNombre(request.getUsername()).orElseThrow();
+        UserDetails user = userService.loadUserByUsername(request.getUsername());
         String token = jwtService.getToken(user);
         return AuthResponse.builder().token(token).build();
     }
@@ -43,9 +45,9 @@ public class AuthService {
         Usuario user = Usuario.builder()
                 .nombre(request.getUsername())
                 .apellido(request.getApellido())
-                .telefono(request.getTelefono())
-                .email(request.email)
-                .rol("USER")
+                .telefono(request.getCelular())
+                .email(request.correo)
+                .rol("u")
                 .password(passwordEncoder.encode( request.getPassword()))
                 .build();
 

@@ -1,7 +1,8 @@
-package ps.service;
+package ps.servicios;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import ps.controller.CuentaController;
 import ps.model.Cuenta;
 import ps.model.Usuario;
 import ps.repository.CuentaRepository;
@@ -13,6 +14,13 @@ public class CuentaService {
 
     @Autowired
     private CuentaRepository cuentaRepository;
+    
+    @Autowired
+    private CuentaController cuentaController; 
+    
+    public String anularCuenta(Long id) {
+        return cuentaController.deshabilitarCuenta(id);
+    }
 
     // Método para crear una cuenta con un propietario específico
     public Cuenta crearCuenta(Long id_usuario, Cuenta cuenta) {

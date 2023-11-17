@@ -1,14 +1,20 @@
-package ps.service;
+package ps.servicios;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import ps.model.Cuenta;
+import ps.model.Usuario;
 import ps.repository.CuentaRepository;
+import ps.repository.UsuarioRepository;
 
-
+@Service
 public class UsuarioService {
 	
 
+	    public Usuario createUser(Usuario user) {
+	        return UsuarioRepository.save(user);
+	    }
 	    @Autowired
 	    private CuentaRepository cuentaRepository;
 

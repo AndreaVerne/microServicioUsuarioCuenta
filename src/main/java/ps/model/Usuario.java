@@ -1,14 +1,21 @@
 package ps.model;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
+import lombok.Builder;
+@Builder
 @Entity
-public class Usuario {
+public class Usuario implements UserDetails {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id_usuario;
@@ -120,6 +127,44 @@ public class Usuario {
 	public void setRol(String rol) {
 		this.rol = rol;
 	}
+	
+	   @Override
+		public java.util.Collection<? extends GrantedAuthority> getAuthorities() {
+		
+			return List.of(new SimpleGrantedAuthority((this.rol)));
+		}
+	    @Override
+	    public String getPassword() {
+	        return this.contraseña;
+	    }
+
+	    @Override
+	    public String getUsername() {
+	        return this.nombre;
+	    }
+
+	    @Override
+	    public boolean isAccountNonExpired() {
+	        return true;
+	    }
+
+	    @Override
+	    public boolean isAccountNonLocked() {
+	        return true;
+	    }
+
+	    @Override
+	    public boolean isCredentialsNonExpired() {
+	        return true;
+	    }
+
+	    @Override
+	    public boolean isEnabled() {
+	        return true;
+	    }
+	
+
+
 
 	// Método toString para representar la entidad como cadena
 	@Override
@@ -128,4 +173,5 @@ public class Usuario {
 		//return "r [id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", posicion=" + posicion
 		//		+ ", valor=" + valor + "]";
 	}
+
 }

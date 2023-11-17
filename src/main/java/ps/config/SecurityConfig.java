@@ -13,7 +13,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import JWT.JwtFilter;
+import JWT.JwtAuthenticationFilter;
+
 
 
 @Configuration
@@ -22,7 +23,7 @@ import JWT.JwtFilter;
 public class SecurityConfig {
 
     @Autowired
-    private JwtFilter jwtAuthenticationFilter;
+    private  JwtAuthenticationFilter  jwtAuthenticationFilter  ;
 
     @Autowired
     private AuthenticationProvider authProvider;

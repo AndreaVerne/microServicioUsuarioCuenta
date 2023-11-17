@@ -1,18 +1,20 @@
 package ps.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 
-import dto.requets.ErrorResponse;
+import JWT.JWTService;
 
-import dto.response.UsuarioResponse;
+import io.swagger.v3.oas.annotations.Operation;
 import ps.model.Cuenta;
 import ps.model.Usuario;
 import ps.repository.UsuarioRepository;
-import ps.service.UsuarioService;
+import ps.servicios.CuentaService;
+import ps.servicios.UsuarioService;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -20,8 +22,15 @@ public class UsuarioController {
 	@Autowired
 	private UsuarioService usuarioService;
 	
+    @Autowired
+    private CuentaService cuentaServicio;
+
+	
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+	
+	  @Autowired
+	    private JWTService jwtService;
 
 	@Value("${variable_env}")
 	private String variable_env;
@@ -36,24 +45,17 @@ public class UsuarioController {
 		return "Un mensaje de texto.";
 	}
 
+	 @GetMapping("/verificarToken/{token}")
+	    @Operation(summary = "Verificar token", description = "Le llega un token en forma de string y si es valido devuelve el rol del usuario")
+	    public String verificarToken(@PathVariable String token) {
+	        return jwtService.verificarToken(token);
+	    }
 	// Obtener todos los usuario
-	@GetMapping
-	public ResponseEntity<Object> obtenerTodosLosUsuarios() {
-		try {
-			// TODO: Pasar al service.
-			UsuarioResponse jr = new UsuarioResponse(usuarioRepository.findAll());
-			// Algun llamado al service.
-			//throw new Exception("Este es un mensaje opcional");
-			return ResponseEntity.ok(jr);
-			
-		} catch (Exception e) {
-			// Ojo con esto por que puede enviar un error de BD al front,
-			// se deberia controlar con e custom o error generico.
-			ErrorResponse er = new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(er);
-		}
-	}
-	
+	   @GetMapping
+	    @Operation(summary = "Lista usuarios", description = "FindAll de los usuarios en el repositorio")
+	    public List<Usuario> listarUsuarios() {
+	        return usuarioRepository.findAll();
+	    }
 
     // Endpoint para obtener la cuenta de un usuario por su ID
     @GetMapping("/cuenta")
@@ -61,42 +63,43 @@ public class UsuarioController {
         return usuarioService.obtenerCuentaPorUsuario(id_usuario);
     }
 
-    // Endpoint para restar un monto a la cuenta por su ID
-    @PutMapping("/{idCuenta}/{monto}")
+    // Endpoint para restar un monto a la cuenta por su ID//ver
+    @PutMapping("/{id}/{monto}")
+    @Operation(summary = "", description = "")
     public Cuenta restarMontoACuenta(@PathVariable Long id, @PathVariable double saldo) {
         return usuarioService.restarMontoACuenta(id, saldo);
     }
 
 	// Crear un nuevo usuario
 	@PostMapping
+	 @Operation(summary = "Crear usuario", description = "Recibe un usuario por el body y lo guarda en el repositorio")
 	public Usuario crearUsuario(@RequestBody Usuario usuario) {
 		return usuarioRepository.save(usuario);
 	}
+   
 	
-    @GetMapping("/rolAdmin/{id}")
-    public boolean xRolAdmin(@PathVariable long id){
-        if(usuarioRepository.xRol(id) == 'a'){
+    @GetMapping("/rolAdmin/{id_usuarip}")
+    public boolean xRolAdmin(@PathVariable long id_usuario){
+        if(usuarioRepository.xRol(id_usuario) == 'a'){
            return true;
         }
        return false ;
    } 
   
-
    @GetMapping("/rolDueño/{id_usuario}")
-    public boolean xRolDueño(@PathVariable long id){
-        if(usuarioRepository.xRol(id) == 'd'){
+    public boolean xRolDueño(@PathVariable long id_usuario){
+        if(usuarioRepository.xRol(id_usuario) == 'd'){
            return true;
         }
        return false ;
    } 
    @GetMapping("/rolUsuario/{id_usuario}")
-   public boolean xRolUsuario(@PathVariable long id){
-       if(usuarioRepository.xRol(id) == 'u'){
+   public boolean xRolUsuario(@PathVariable long id_usuario){
+       if(usuarioRepository.xRol(id_usuario) == 'u'){
           return true;
        }
       return false ;
   } 
-
 	
 	// Actualizar un Usuario existente por ID
 	@PutMapping("/{id_usuario}")
@@ -105,11 +108,21 @@ public class UsuarioController {
 		return usuarioRepository.save(usuarioActualizado);
 	}
 
-	// Eliminar un Usuario por ID
-	@DeleteMapping("/{id_usuario}")
-	public void eliminarUsuario(@PathVariable long id_usuario) {
-		usuarioRepository.deleteById(id_usuario);
-	}
+	   @GetMapping("/anularCuenta/{idCuenta}")
+	    @Operation(summary = "Anula/Deshabilita cuenta", description = "Confirma si el token del solicitante es de un admin y deshabilita la cuenta")
+	    public String anularCuenta(@RequestHeader("Authorization") String authorization, @PathVariable Long id) {
 
-	
-}
+	        // Busca usuario y comprueba si es administrador
+	        if (esAdmin(authorization)) {
+	            String intentarAnularCuenta = cuentaServicio.anularCuenta(id);
+	            return intentarAnularCuenta;
+	        }
+	        return "Necesitas permisos de administrador.";
+	    }
+	   private boolean esAdmin(String authorization) {
+	        String tokenSinBearer = authorization.substring(7);
+	        if (jwtService.isAdmin(tokenSinBearer))
+	            return true;
+	        return false;
+	    }
+	}
