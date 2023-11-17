@@ -11,12 +11,15 @@ import ps.repository.UsuarioRepository;
 @Service
 public class UsuarioService {
 	
+	@Autowired
+	private CuentaRepository cuentaRepository;
+
+	 @Autowired
+	    private UsuarioRepository usuarioRepository;
 
 	    public Usuario createUser(Usuario user) {
-	        return UsuarioRepository.save(user);
+	        return usuarioRepository.save(user);
 	    }
-	    @Autowired
-	    private CuentaRepository cuentaRepository;
 
 	    // Método para obtener la cuenta de un usuario por su ID
 	    public Cuenta obtenerCuentaPorUsuario(Long id_usuario) {

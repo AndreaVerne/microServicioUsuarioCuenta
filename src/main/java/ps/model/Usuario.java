@@ -40,8 +40,8 @@ public class Usuario implements UserDetails {
 	public Usuario() {
 	}
 
-	public Usuario(long id_usuario, String rol, String nombre, String apellido, String correo, String contraseña, int celular,
-			Cuenta id_cuenta) {
+	public Usuario(long id_usuario,String rol, String nombre, String apellido, String correo,  int celular,Cuenta id_cuenta,String contraseña,ArrayList<Cuenta> cuentas
+			) {
 		this.rol=rol;
 		this.id_usuario = id_usuario;
 		this.nombre = nombre;
@@ -52,14 +52,11 @@ public class Usuario implements UserDetails {
 		this.id_cuenta = id_cuenta;
 		this.cuentas= new ArrayList<>();
 	}
-	public ArrayList<Cuenta> getUsuarios(){
+	//public ArrayList<Cuenta> getUsuarios(){
 		
-		return cuentas;
+		//return cuentas;
 		
-	}
-
-	
-
+//	}
 	public long getId_usuario() {
 		return id_usuario;
 	}
@@ -162,8 +159,6 @@ public class Usuario implements UserDetails {
 	    public boolean isEnabled() {
 	        return true;
 	    }
-	
-
 
 
 	// Método toString para representar la entidad como cadena

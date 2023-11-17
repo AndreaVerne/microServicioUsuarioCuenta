@@ -78,7 +78,7 @@ public class UsuarioController {
 	}
    
 	
-    @GetMapping("/rolAdmin/{id_usuarip}")
+    @GetMapping("/rolAdmin/{id_usuario}")
     public boolean xRolAdmin(@PathVariable long id_usuario){
         if(usuarioRepository.xRol(id_usuario) == 'a'){
            return true;

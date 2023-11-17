@@ -2,7 +2,7 @@ package auth;
 
 import ps.model.Usuario;
 import ps.repository.UsuarioRepository;
-import ps.service.UsuarioService;
+import ps.servicios.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,7 +36,7 @@ public class AuthService {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getUsername(), request.getPassword()));
-        UserDetails user = userService.loadUserByUsername(request.getUsername());
+        UserDetails user = userRepository.findByNombre(request.getUsername()).orElseThrow();
         String token = jwtService.getToken(user);
         return AuthResponse.builder().token(token).build();
     }
@@ -45,10 +45,10 @@ public class AuthService {
         Usuario user = Usuario.builder()
                 .nombre(request.getUsername())
                 .apellido(request.getApellido())
-                .telefono(request.getCelular())
-                .email(request.correo)
+                .celular(request.getCelular())
+                .correo(request.correo)
                 .rol("u")
-                .password(passwordEncoder.encode( request.getPassword()))
+                .contraseña(passwordEncoder.encode(request.getContraseña()))
                 .build();
 
         userService.createUser(user);

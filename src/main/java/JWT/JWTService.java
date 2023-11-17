@@ -24,6 +24,7 @@ public class JWTService {
     private UserDetailsService userDetailsService;
 
     private static final String SECRET_KEY= "23842834283SECRETKEY21321328428312831823814288524253";
+    
     public String getToken(UserDetails user) {
         return getToken(new HashMap<>(), user);
     }
@@ -35,7 +36,7 @@ public class JWTService {
                 .setSubject(user.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis()+1000*60*24))
-                .signWith(getKey(), SignatureAlgorithm.HS256)
+                .signWith(getKey(), SignatureAlgorithm.RS256)
                 .compact();
     }
 
