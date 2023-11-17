@@ -86,7 +86,7 @@ public class CuentaController {
     // Endpoint para deshabilitar una cuenta por su ID
     @PutMapping("/anularCuenta/{id}")
     @Operation(summary = "Deshabilitar cuenta", description = "Busca cuenta por id y la deshabilita (solo admins)")
-    public String anularCuenta(@PathVariable Long id) {
+    public String deshabilitarCuenta(@PathVariable Long id) {
         Cuenta cuenta = cuentaRepository.findById(id).orElse(null);
         if (cuenta!=null) {
             cuenta.setHabilitada(false);

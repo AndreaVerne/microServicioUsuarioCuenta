@@ -22,6 +22,7 @@ public class CuentaService {
         return cuentaController.deshabilitarCuenta(id);
     }
 
+
     // Método para crear una cuenta con un propietario específico
     public Cuenta crearCuenta(Long id_usuario, Cuenta cuenta) {
         Usuario propietario = usuarioRepository.findById(id_usuario).orElseThrow(() -> new RuntimeException("Propietario no encontrado"));

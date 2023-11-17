@@ -108,7 +108,7 @@ public class UsuarioController {
 		return usuarioRepository.save(usuarioActualizado);
 	}
 
-	   @GetMapping("/anularCuenta/{idCuenta}")
+	   @GetMapping("/anularCuenta/{id}")
 	    @Operation(summary = "Anula/Deshabilita cuenta", description = "Confirma si el token del solicitante es de un admin y deshabilita la cuenta")
 	    public String anularCuenta(@RequestHeader("Authorization") String authorization, @PathVariable Long id) {
 
