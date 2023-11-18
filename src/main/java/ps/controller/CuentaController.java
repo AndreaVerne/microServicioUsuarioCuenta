@@ -1,5 +1,7 @@
 package ps.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -7,9 +9,10 @@ import org.springframework.web.bind.annotation.*;
 
 
 import io.swagger.v3.oas.annotations.Operation;
+
 import ps.model.Cuenta;
 import ps.repository.CuentaRepository;
-
+import ps.service.TokenServicio;
 import ps.servicios.CuentaService;
 
 @RestController
@@ -22,7 +25,9 @@ public class CuentaController {
 
 	  @Autowired
 	  private CuentaService cuentaService;
-	
+
+	  @Autowired
+	  private TokenServicio	 token;
 	  
 	  
 	  
@@ -40,33 +45,42 @@ public class CuentaController {
 	}
 
 
-	// Crear un nuevo Cuenta
-	@PostMapping
-	 @Operation(summary = "Lista cuentas", description = "")
-	public Cuenta crearCuenta(@RequestBody Cuenta cuenta) {
-		return cuentaRepository.save(cuenta);
-	}
+	 @GetMapping
+	    @Operation(summary = "Lista cuentas", description = "FindAll de las cuentas en el repositorio")
+	    public List<Cuenta> dameCuentas(@RequestHeader("Authorization") String authorization) {
+	        return cuentaRepository.findAll();
+	    }
 
     @PostMapping("/crearCuenta")
     @Operation(summary = "crear cuenta", description = "")
-    public Cuenta crearCuenta(@RequestParam Long id, @RequestBody Cuenta cuenta) {
-        return cuentaService.crearCuenta(id, cuenta);
+    public String crearCuenta(@RequestParam Long id, @RequestBody Cuenta cuenta,  @RequestHeader("Authorization") String authorization) {
+    	if (token.autorizado(authorization).contains("a")) {
+        cuentaService.crearCuenta(id, cuenta);
+        return "La cuenta fue creada con exito";
+    	}
+    	  return "La cuenta  no se ha podido crear, verifique los datos";
     }
-
     @PutMapping("/agregarUsuario/{id}")
     @Operation(summary = "agregar usuario", description = "")
-    public Cuenta agregarUsuario(@PathVariable Long id, @RequestParam Long idUsuarioSolicitante, @RequestParam Long idUsuarioAgregado) {
-        return cuentaService.agregarUsuario(id, idUsuarioSolicitante, idUsuarioAgregado);
+    public String agregarUsuario(@PathVariable Long id, @RequestParam Long idUsuarioSolicitante, @RequestParam Long idUsuarioAgregado, @RequestHeader("Authorization") String authorization) {
+    	if (token.autorizado(authorization).contains("a")) {
+    		 cuentaService.agregarUsuario(id, idUsuarioSolicitante, idUsuarioAgregado);
+    		  return "Usuario agregado con exito";
+    	}
+    	  return "El usuario no se ha podido agregar, verifique los datos";
     }
 
 	// Actualizar un Cuenta existente por ID
 	@PutMapping("/{id}")
     @Operation(summary = "actualizar cuenta", description = "")
-	public Cuenta actualizarCuenta(@PathVariable long id, @RequestBody Cuenta cuentaActualizado) {
-		cuentaActualizado.setId(id);
-		return cuentaRepository.save(cuentaActualizado);
+	public String actualizarCuenta(@PathVariable long id, @RequestBody Cuenta cuentaActualizado, @RequestHeader("Authorization") String authorization) {
+		if (token.autorizado(authorization).contains("a")) {
+			cuentaActualizado.setId(id);
+			  cuentaRepository.save(cuentaActualizado);
+			  return "Cuenta actualizada con exito";
+		}
+		return "No se encontro una cuenta con ese id";
 	}
-	
     // Endpoint para deshabilitar una cuenta por su ID
     @PutMapping("/anularCuenta/{id}")
     @Operation(summary = "Deshabilitar cuenta", description = "Busca cuenta por id y la deshabilita (solo admins)")
@@ -83,8 +97,11 @@ public class CuentaController {
 	// Eliminar un Cuenta por ID
 	@DeleteMapping("/{id}")
     @Operation(summary = "eliminar cuenta", description = "")
-	public void eliminarCuenta(@PathVariable long id) {
-		cuentaRepository.deleteById(id);
+	public void eliminarCuenta(@PathVariable long id , @RequestHeader("Authorization") String authorization) {
+		if (token.autorizado(authorization).contains("a")) {
+             cuentaRepository.deleteById(id);;
+        }
+
 	}
 
 	

@@ -1,6 +1,6 @@
 package test;
 
-	import static org.mockito.Mockito.when;
+	import static mockito.Mockito.when;
 	import static org.springframework.test.util.AssertionErrors.assertTrue;
 
 	import java.net.http.HttpHeaders;
@@ -21,7 +21,7 @@ package test;
 	
 	public class testService {
 		
-	@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+	@SpringBootTest (webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT);
 
 
 	  @Autowired
