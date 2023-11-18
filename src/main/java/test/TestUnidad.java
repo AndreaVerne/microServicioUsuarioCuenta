@@ -25,7 +25,7 @@ package test;
 	public class TestUnidad {
 
 
-		@Mock // Clase simulada
+		@Mock// Clase simulada
 		private CuentaRepository cuentaRepository;
 
 		@InjectMocks // Clase donde se inyectara el mock

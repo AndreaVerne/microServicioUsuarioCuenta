@@ -1,11 +1,11 @@
 package test;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 
 import ps.repository.CuentaRepository;
 import ps.servicios.CuentaService;
-
 import ps.model.Cuenta;
 import ps.model.dto.CuentaDto;
 
@@ -33,7 +33,7 @@ public class TestIntegracion {
         CuentaDto cuentaDTO = new CuentaDto (345.5 ,214, "cuenta");
 
         // Llamar al método del servicio que interactúa con la base de datos
-        Cuenta cuentaGuardado = CuentaService.guardarCuenta(CuentaDto);
+        Cuenta cuentaGuardado = cuentaService.guardarCuenta(cuentaDTO);
 
         // Verificar que el club se ha guardado correctamente en la base de datos
         assertNotNull(cuentaGuardado.getId());

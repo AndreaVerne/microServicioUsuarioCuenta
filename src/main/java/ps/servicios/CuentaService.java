@@ -20,6 +20,11 @@ public class CuentaService {
     private CuentaController cuentaController; 
    
     
+	public CuentaService(CuentaRepository cuentaRepository2) {
+		this.cuentaRepository = cuentaRepository;
+	}
+
+
 	public String anularCuenta(Long id) {
         return cuentaController.deshabilitarCuenta(id);
     }

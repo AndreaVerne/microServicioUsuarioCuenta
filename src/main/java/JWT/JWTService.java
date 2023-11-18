@@ -23,7 +23,7 @@ public class JWTService {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    private static final String SECRET_KEY= "23842834283SECRETKEY21321328428312831823814288524253";
+    private static final String SECRET_KEY= "23842834283SECRETKEY21321328428312831823814288524254";
     
     public String getToken(UserDetails user) {
         return getToken(new HashMap<>(), user);
@@ -76,7 +76,7 @@ public class JWTService {
     }
 
     public boolean isAdmin(String token) {
-        Claims claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
+    	Claims claims = Jwts.parserBuilder().setSigningKey(SECRET_KEY).build().parseClaimsJws(token).getBody();
         String username = claims.getSubject();
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         System.out.println(userDetails.getAuthorities().stream()

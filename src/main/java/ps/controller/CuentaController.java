@@ -4,10 +4,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
+import dto.requets.ErrorResponse;
+import dto.response.CuentaResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import ps.model.Cuenta;
 import ps.repository.CuentaRepository;
@@ -29,6 +30,10 @@ public class CuentaController {
 	  @Autowired
 	  private UsuarioService usuarioService;
 	  
+	  @Autowired
+	  private CuentaResponse cuentaResponse;
+	  
+	  
 	@Value("${variable_env}")
 	private String variable_env;
 
@@ -44,9 +49,23 @@ public class CuentaController {
 
 	   @GetMapping
 	    @Operation(summary = "Lista cuentas", description = "FindAll de las cuentas en el repositorio")
-	    public List<Cuenta> dameCuentas() {
-	        return cuentaRepository.findAll();
-	    }
+	   try {
+			// si el token es valido
+			if (token.autorizado(authorization) == null){
+           	return null;
+			}else{
+				CuentaResponse p = new CuentaResponse(CuentaRepository.findAll());
+				return ResponseEntity.ok(p);
+			}
+		} catch (Exception e) {
+			// Ojo con esto por que puede enviar un error de BD al front,
+			// se deberia controlar con e custom o error generico.
+			ErrorResponse er = new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(er);
+		}
+		
+	}
+
 
 	// Crear un nuevo Cuenta
 	@PostMapping
