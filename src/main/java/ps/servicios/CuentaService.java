@@ -18,8 +18,9 @@ public class CuentaService {
     
     @Autowired
     private CuentaController cuentaController; 
+   
     
-    public String anularCuenta(Long id) {
+	public String anularCuenta(Long id) {
         return cuentaController.deshabilitarCuenta(id);
     }
 
@@ -35,7 +36,6 @@ public class CuentaService {
     public Cuenta agregarUsuario(Long id, Long idUsuarioSolicitante, Long idUsuarioAgregado) {
         Usuario solicitante = usuarioRepository.findById(idUsuarioSolicitante).orElseThrow(() -> new RuntimeException("Usuario solicitante no encontrado"));
         Cuenta cuenta = cuentaRepository.findById(id).orElseThrow(() -> new RuntimeException("Cuenta no encontrada"));
-
         if (!cuenta.getIdPropietario().equals(solicitante)) {
             throw new RuntimeException("No tienes permiso para realizar esta acción.");
         }
@@ -50,7 +50,7 @@ public class CuentaService {
     	Cuenta cuenta = new Cuenta(
     			cuentaDto.getSaldo(),
     			cuentaDto.getId(),
-    			cuentaDto.getFecha_creacion());
+    			cuentaDto.getMercado_pago());
 		
         return cuentaRepository.save(cuenta);
     }

@@ -12,15 +12,14 @@ public class CuentaDto {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	
 	private long id;
-	private Date fecha_creacion;
 	private double saldo;
-
+	private String mercado_pago;
 	
 	
 	
-	public CuentaDto(double saldo,long id, Date fecha_creacion) {
+	public CuentaDto(double saldo,long id,String mercado_pago) {
 		this.id = id;
-		this.fecha_creacion = fecha_creacion;
+		this.mercado_pago= mercado_pago;
 		this.saldo = saldo;
 	}
 	public long getId() {
@@ -30,17 +29,17 @@ public class CuentaDto {
 		this.id = id;
 	}
 	
-	public Date getFecha_creacion() {
-		return fecha_creacion;
-	}
-	public void setFecha_creacion(Date fecha_creacion) {
-		this.fecha_creacion = fecha_creacion;
-	}
 	public double getSaldo() {
 		return saldo;
 	}
 	public void setSaldo(double saldo) {
 		this.saldo = saldo;
+	}
+	public String getMercado_pago() {
+		return mercado_pago;
+	}
+	public void setMercado_pago(String mercado_pago) {
+		this.mercado_pago = mercado_pago;
 	}
 
 }
