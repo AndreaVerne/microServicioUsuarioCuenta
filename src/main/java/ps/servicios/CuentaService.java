@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ps.controller.CuentaController;
 import ps.model.Cuenta;
 import ps.model.Usuario;
+import ps.model.dto.CuentaDto;
 import ps.repository.CuentaRepository;
 import ps.repository.UsuarioRepository;
 
@@ -43,4 +44,16 @@ public class CuentaService {
         cuenta.getUsuarios().add(usuarioAgregado);
         return cuentaRepository.save(cuenta);
     }
+    
+    
+    public Cuenta guardarCuenta(CuentaDto cuentaDto) {
+    	Cuenta cuenta = new Cuenta(
+    			cuentaDto.getSaldo(),
+    			cuentaDto.getId(),
+    			cuentaDto.getFecha_creacion());
+		
+        return cuentaRepository.save(cuenta);
+    }
+
+
 }

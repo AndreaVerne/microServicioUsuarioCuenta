@@ -23,7 +23,7 @@ public class Cuenta {
 	private Usuario idPropietario;
 	private ArrayList<Usuario>usuarios;
 	
-	public Cuenta() {
+	public Cuenta(double d, long l, Date date) {
 		
 	}
 
