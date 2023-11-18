@@ -8,7 +8,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
+import lombok.Builder;
+@Builder
 @Entity
 public class Cuenta {
 	@Id
@@ -28,7 +29,7 @@ public class Cuenta {
 	}
 
 
-	public Cuenta(long id, String mercado_pago, Usuario idPropietario, Date fecha_creacion, double saldo, boolean habilitada, String motivo) {
+	public Cuenta(long id, String mercado_pago,Date fecha_creacion, double saldo, boolean habilitada,String motivo, Usuario idPropietario, ArrayList<Usuario> usuarios) {
 		super();
 		this.id = id;
 		this.mercado_pago = mercado_pago;

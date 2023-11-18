@@ -59,6 +59,7 @@ public class UsuarioController {
 
     // Endpoint para obtener la cuenta de un usuario por su ID
     @GetMapping("/cuenta")
+    @Operation(summary = "", description = "")
     public Cuenta obtenerCuentaPorUsuario(@PathVariable Long id_usuario) {
         return usuarioService.obtenerCuentaPorUsuario(id_usuario);
     }
@@ -79,6 +80,7 @@ public class UsuarioController {
    
 	
     @GetMapping("/rolAdmin/{id_usuario}")
+    @Operation(summary = "", description = "")
     public boolean xRolAdmin(@PathVariable long id_usuario){
         if(usuarioRepository.xRol(id_usuario) == 'a'){
            return true;
@@ -87,6 +89,7 @@ public class UsuarioController {
    } 
   
    @GetMapping("/rolDueño/{id_usuario}")
+   @Operation(summary = "", description = "")
     public boolean xRolDueño(@PathVariable long id_usuario){
         if(usuarioRepository.xRol(id_usuario) == 'd'){
            return true;
@@ -94,6 +97,7 @@ public class UsuarioController {
        return false ;
    } 
    @GetMapping("/rolUsuario/{id_usuario}")
+   @Operation(summary = "", description = "")
    public boolean xRolUsuario(@PathVariable long id_usuario){
        if(usuarioRepository.xRol(id_usuario) == 'u'){
           return true;
@@ -103,6 +107,7 @@ public class UsuarioController {
 	
 	// Actualizar un Usuario existente por ID
 	@PutMapping("/{id_usuario}")
+	  @Operation(summary = "", description = "")
 	public Usuario actualizarUsuario(@PathVariable long id_usuario, @RequestBody Usuario usuarioActualizado) {
 		usuarioActualizado.setId_usuario(id_usuario);
 		return usuarioRepository.save(usuarioActualizado);
