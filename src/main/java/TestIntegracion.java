@@ -30,22 +30,22 @@ public class TestIntegracion {
     	CuentaService cuentaService = new CuentaService(cuentaRepository);
         
         // Crear un objeto DTO con datos de prueba
-        CuentaDto cuentaDTO = new CuentaDto ("345", "214", "01/11/2023");
+        CuentaDto cuentaDTO = new CuentaDto (345.5 ,214, 01-11-2023);
 
         // Llamar al método del servicio que interactúa con la base de datos
         Cuenta cuentaGuardado = CuentaService.guardarCuenta(CuentaDto);
 
         // Verificar que el club se ha guardado correctamente en la base de datos
         assertNotNull(cuentaGuardado.getId());
-        assertEquals("saldo", cuentaGuardado.getSaldo());
-        assertEquals("214", cuentaGuardado.getId());
-        assertEquals("1/11/2023", cuentaGuardado.getFecha_creacion());
+        assertEquals(345.5, cuentaGuardado.getSaldo());
+        assertEquals(214, cuentaGuardado.getId());
+        assertEquals(01-11-2023, cuentaGuardado.getFecha_creacion());
         
         // Verificar que el club se puede recuperar correctamente de la base de datos
         Cuenta cuentaRecuperado = cuentaRepository.findById(cuentaGuardado.getId()).orElse(null);
         assertNotNull(cuentaRecuperado);
-        assertEquals("345", cuentaRecuperado.getSaldo());
-        assertEquals("214", cuentaRecuperado.getId());
-        assertEquals("1/11/2023", cuentaRecuperado.getFecha_creacion());
+        assertEquals(345.5, cuentaRecuperado.getSaldo());
+        assertEquals(214, cuentaRecuperado.getId());
+        assertEquals(01-11-2023, cuentaRecuperado.getFecha_creacion());
     }
 }

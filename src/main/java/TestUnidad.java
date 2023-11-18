@@ -41,17 +41,17 @@
 		public void testGuardarCuenta() {
 		
 			 
-			CuentaDto cuentaDto = new CuentaDto("345", "214", "01/11/2023");
+			CuentaDto cuentaDto = new CuentaDto(345.5 ,214, 01-11-2023);
 			when(cuentaRepository.save(Mockito.any(Cuenta.class)))
-					.thenReturn(new Cuenta("345", "214", "01/11/2023"));
+					.thenReturn(new Cuenta(345.5 ,214, 01-11-2023));
 
 			// Llamar al método del servicio y verificar el resultado
 			Cuenta cuentaGuardado = cuentaService.guardarCuenta(cuentaDto);
 			
 			
-			 assertEquals("saldo", cuentaGuardado.getSaldo());
-		        assertEquals("214", cuentaGuardado.getId());
-		        assertEquals("1/11/2023", cuentaGuardado.getFecha_creacion());
+			 assertEquals(345.5, cuentaGuardado.getSaldo());
+		        assertEquals(214, cuentaGuardado.getId());
+		        assertEquals("01/11/2023", cuentaGuardado.getFecha_creacion());
 		}
 	}
 
