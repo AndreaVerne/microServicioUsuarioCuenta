@@ -95,6 +95,11 @@
     <artifactId>springfox-boot-starter</artifactId>
     <version>3.0.0</version>
 </dependency>
+		<dependency>
+			<groupId>ar.edu.cresta</groupId>
+			<artifactId>Noe</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>

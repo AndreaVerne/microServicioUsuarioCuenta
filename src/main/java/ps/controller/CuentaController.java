@@ -1,20 +1,16 @@
 package ps.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 
-import dto.requets.ErrorResponse;
-import dto.response.CuentaResponse;
+
 import io.swagger.v3.oas.annotations.Operation;
 import ps.model.Cuenta;
 import ps.repository.CuentaRepository;
 
 import ps.servicios.CuentaService;
-import ps.servicios.UsuarioService;
 
 @RestController
 @RequestMapping("/cuentas")
@@ -26,12 +22,8 @@ public class CuentaController {
 
 	  @Autowired
 	  private CuentaService cuentaService;
-	 
-	  @Autowired
-	  private UsuarioService usuarioService;
+	
 	  
-	  @Autowired
-	  private CuentaResponse cuentaResponse;
 	  
 	  
 	@Value("${variable_env}")
@@ -45,25 +37,6 @@ public class CuentaController {
 	@GetMapping("/string")
 	public String obtener_string_hardcodeado() {
 		return "Un mensaje de texto.";
-	}
-
-	   @GetMapping
-	    @Operation(summary = "Lista cuentas", description = "FindAll de las cuentas en el repositorio")
-	   try {
-			// si el token es valido
-			if (token.autorizado(authorization) == null){
-           	return null;
-			}else{
-				CuentaResponse p = new CuentaResponse(CuentaRepository.findAll());
-				return ResponseEntity.ok(p);
-			}
-		} catch (Exception e) {
-			// Ojo con esto por que puede enviar un error de BD al front,
-			// se deberia controlar con e custom o error generico.
-			ErrorResponse er = new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(er);
-		}
-		
 	}
 
 
@@ -109,7 +82,7 @@ public class CuentaController {
 
 	// Eliminar un Cuenta por ID
 	@DeleteMapping("/{id}")
-    @Operation(summary = "elininar cuenta", description = "")
+    @Operation(summary = "eliminar cuenta", description = "")
 	public void eliminarCuenta(@PathVariable long id) {
 		cuentaRepository.deleteById(id);
 	}
